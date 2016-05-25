@@ -1,12 +1,13 @@
 {
   "name": "ph-swipe",
   "version": "0.1.1",
-  "description": "移动端滑动模块",
-  "main": "lib/",
+  "description": "基于react开发的移动端swipe浏览组件",
+  "main": "lib/index.js",
   "repository": "git@github.com:future-team/ph-swipe.git",
   "keywords": [
-    "core",
-    "template"
+    "react",
+    "swipe",
+    "slide"
   ],
   "scripts": {
     "build": "node_modules/.bin/gulp && node_modules/.bin/gulp min",
