@@ -27,7 +27,7 @@ gulp.task('karma', function (done) {
 
 gulp.task('open', function () {
   gulp.src(__filename)
-      .pipe(open({uri: "http://127.0.0.1:8081/webpack-dev-server/example/index.html"}));
+      .pipe(open({uri: "http://127.0.0.1:8082/webpack-dev-server/example/index.html"}));
 });
 
 gulp.task('demo-webpack', function(done) {
@@ -41,11 +41,11 @@ gulp.task('demo-webpack', function(done) {
      "*": "http://localhost:9090"
      },*/
     filename: config.name+".js",
-    publicPath: "/dist/",
+    publicPath: "/example/",
     //headers: { "X-Custom-Header": "yes" },
     stats: { colors: true }
   });
-  server.listen(8081, "localhost", function() {});
+  server.listen(8082, "localhost", function() {});
 
 });
 
