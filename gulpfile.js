@@ -31,8 +31,22 @@ gulp.task('open', function () {
 });
 
 gulp.task('demo-webpack', function(done) {
+  var wbpk = Object.create(demoWebpackConfig);
 
-  var compiler = webpack(demoWebpackConfig);
+  wbpk.devtool = 'eval';
+  wbpk.entry = [
+    'webpack-dev-server/client?http://127.0.0.1:' + 8081,
+    'webpack/hot/only-dev-server',
+    './example/src/index.js'
+  ];
+
+  wbpk.plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ];
+
+
+  var compiler = webpack(wbpk);
 
   var server = new WebpackDevServer(compiler, {
     hot: true,
@@ -64,11 +78,20 @@ gulp.task('min-webpack', function(done) {
   var wbpk = Object.create(webpackConfig);
   wbpk.output.filename = config.name+'.min.js';
   wbpk.plugins = [
-    new webpack.optimize.UglifyJsPlugin()
+    //new webpack.optimize.UglifyJsPlugin()
   ];
 
   webpack(wbpk).run(function(err, stats) {
     if(err) throw new gutil.PluginError("min-webpack", err);
+    gutil.log("[webpack]", stats.toString({
+      // output options
+    }));
+    done();
+  });
+});
+gulp.task('example-webpack',function(done){
+  webpack(demoWebpackConfig).run(function(err, stats) {
+    if(err) throw new gutil.PluginError("example-webpack", err);
     gutil.log("[webpack]", stats.toString({
       // output options
     }));
@@ -86,7 +109,7 @@ gulp.task('watch', function () {
   gulp.watch(['./lib/**/*.*'], ['demo']);
 });
 
-gulp.task('default', ['babel','require-webpack'/*, 'html', 'asset'*/]);
+gulp.task('default', ['babel','require-webpack','example-webpack']);
 gulp.task('test',['karma']);
 gulp.task('demo', ['demo-webpack','open']);
 gulp.task('min',['min-webpack']);

@@ -26,7 +26,7 @@ export default class PhSwipeDemo extends Component {
          * 测试普通横向滑动模块
          */
         let node1=[
-            <div className="hint">请横向滑动图片，查看简单测试</div>,
+            <div className="hint">请横向滑动图片，查看默认操作</div>,
             <div className="container">
                 <div className="img-list" id="horizontal-no-ball">
                     {this.renderImg()}
@@ -46,7 +46,7 @@ export default class PhSwipeDemo extends Component {
             activeClass:'indicator-active'//滑动容器下方小圆点激活的className值
         };
         let node2=[
-            <div className="hint">查看自动循环播放</div>,
+            <div className="hint">支持循环播放，及手势操作</div>,
 
             <div className="container">
                 <div className="img-list" id="auto-play">

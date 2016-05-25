@@ -29,7 +29,7 @@ export default class PhSwipe extends Component{
     componentDidMount(){
         let{ children,...other}=this.props;
         this.node = findDOMNode(this.refs['ph-swipe']);
-        new Swipe(this.node.children[0],other);
+        new Swipe(this.node,other);
     }
     render(){
         return (<div ref='ph-swipe'>

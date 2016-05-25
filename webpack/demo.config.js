@@ -25,20 +25,14 @@ module.exports =extend({}, {
     //entry:baseFileDir+'src/index.js',
     devtool:'eval',
     entry:[
-        'webpack-dev-server/client?http://localhost:8081',
-        'webpack/hot/only-dev-server',
         './example/src/index.js'
     ],
     output:{
-        path:path.join(process.cwd(),'dist'),
+        path:path.join(process.cwd(),'example'),
         filename:config.name+'.js'
     },
     module:{
-        loaders:[/*
-         {
-         test: /date-time\.js$/,
-         loaders: ['muiLocal', 'babel']
-         },*/
+        loaders:[
             {
                 test: /\.jsx?$/,
                 loaders: ['react-hot', 'babel'],
@@ -53,11 +47,7 @@ module.exports =extend({}, {
                 loader : 'file-loader'
             }
         ]
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-    ]
+    }
 });
 /*
  module:{

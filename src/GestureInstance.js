@@ -56,14 +56,13 @@ export default class Slider extends GestureEvent{
             (this.options.direction=='horizontal'?
                 this.node['offsetWidth']:this.node['offsetHeight'])/(this.node.children.length)//每次滑动宽度/每次滑动高度
         };
-        debugger;
     }
     bindDefinedEvents(){
         let that = this;
         let SwipeArr=this.options.direction=='horizontal'?[ 'swipeLeft', 'swipeRight']:['swipeUp','swipeDown'];
         /**
          * 挂载事件
-         * 先支持swipe事件，别的longTap之类的之后封装
+         * 先支持swipe事件，类似longTap之类的之后封装
          */
         SwipeArr.forEach(
             (eventName)=>{
@@ -91,7 +90,6 @@ export default class Slider extends GestureEvent{
         let replaceString=this.options.direction=='horizontal'?'x':'y';
         let {currentIndex,swipeGap}=info;
         let {indicatorClassName,activeClass}=this.options;
-        debugger;
         //在渲染样式的时机，渲染下面的小圆
         if(indicatorClassName&&activeClass){
             this.renderIndicator(currentIndex);
