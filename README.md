@@ -4,9 +4,11 @@
 ## UI展示
 >![ph-swipe展示](/example/img/ph-swipe.gif)
 
-##使用
-```bash
-  cnpm install slide-swipe
+## 命令
+``` bash
+	git clone https://github.com/future-team/ph-swipe.git
+	# 或者
+    npm install ph-swipe
 ```
 ## example[demo中的使用代码]
 ```javascript
@@ -142,12 +144,7 @@
     }
     render(<PhSwipeDemo/>,document.getElementById('root'));
 ```
-## 命令
-``` bash
-	git clone https://github.com/future-team/ph-swipe.git
-	# 或者
-    npm install ph-swipe
-```
+
 ## 使用
 ``` bash
     npm run demo 
