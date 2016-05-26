@@ -10,7 +10,7 @@
 	# 或者
     npm install ph-swipe
 ```
-## example[demo中的使用代码]
+## demo[示例代码]
 ```javascript
     import PhSwipe from 'ph-swipe';
     import React,{Component} from 'react';
