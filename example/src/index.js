@@ -1,7 +1,10 @@
-import PhSwipe from '../../src/index.js';
+/**
+ * Created by slashhuang on 16/5/30.
+ */
 import React,{Component} from 'react';
+import PhSwipe from '../../src/index.js';
 import {render,findDOMNode} from 'react-dom';
-
+require('../demo.less');
 export default class PhSwipeDemo extends Component {
     constructor(props, context) {
         super(props, context);
@@ -28,7 +31,7 @@ export default class PhSwipeDemo extends Component {
         let node1=[
             <div className="hint">请横向滑动图片，查看默认操作</div>,
             <div className="container">
-                <div className="img-list" id="horizontal-no-ball">
+                <div className="img-list horizontal">
                     {this.renderImg()}
                 </div>
             </div>
@@ -47,12 +50,11 @@ export default class PhSwipeDemo extends Component {
         };
         let node2=[
             <div className="hint">支持循环播放，及手势操作</div>,
-
             <div className="container">
-                <div className="img-list" id="auto-play">
+                <div className="img-list auto-play">
                     {this.renderImg()}
                 </div>
-                <div className="img-indicator" id="auto-indicator" >
+                <div className="img-indicator auto-indicator" >
                     <i className="indicator-active"></i>
                     <i></i>
                     <i></i>
@@ -73,10 +75,10 @@ export default class PhSwipeDemo extends Component {
         let node3=[
             <div className="hint">请横向滑动图片，查看富交互测试</div>,
             <div className="container">
-                <div className="img-list" id="horizontal">
+                <div className="img-list horizontal">
                     {this.renderImg()}
                 </div>
-                <div className="img-indicator" id="horizontal-indicator" >
+                <div className="img-indicator" >
                     <i className="indicator-active"></i>
                     <i></i>
                     <i></i>
@@ -98,12 +100,11 @@ export default class PhSwipeDemo extends Component {
         };
         let node4=[
             <div className="hint">请竖向滑动图片，查看富交互测试</div>,
-
             <div className="container">
-                <div className="img-list" id="vertical">
+                <div className="img-list vertical">
                     {this.renderImg()}
                 </div>
-                <div className="img-vertical-indicator" id="vertical-indicator" >
+                <div className="img-vertical-indicator" >
                     <i className="indicator-active"></i>
                     <i></i>
                     <i></i>
@@ -111,28 +112,25 @@ export default class PhSwipeDemo extends Component {
                 </div>
             </div>
         ];
-    return (<div>
-
+        return (<div>
             <PhSwipe>
                 {node1[1]}
             </PhSwipe>
-        {node1[0]}
-
+            {node1[0]}
             <PhSwipe {...Node2Options}>
                 {node2[1]}
-             </PhSwipe>
-        {node2[0]}
-
+            </PhSwipe>
+            {node2[0]}
             <PhSwipe {...Node3Options}>
                 {node3[1]}
             </PhSwipe>
-        {node3[0]}
+            {node3[0]}
             <PhSwipe {...node4Options}>
                 {node4[1]}
             </PhSwipe>
-        {node4[0]}
-
-    </div>)
+            {node4[0]}
+        </div>)
     }
 }
-render(<PhSwipeDemo/>,document.getElementById('root'));
+
+render(<PhSwipeDemo/>,document.getElementById('root'))

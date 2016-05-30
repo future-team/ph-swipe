@@ -35,7 +35,7 @@ gulp.task('demo-webpack', function(done) {
 
   wbpk.devtool = 'eval';
   wbpk.entry = [
-    'webpack-dev-server/client?http://127.0.0.1:' + 8081,
+    'webpack-dev-server/client?http://127.0.0.1:' + 8082,
     'webpack/hot/only-dev-server',
     './example/src/index.js'
   ];
@@ -51,12 +51,8 @@ gulp.task('demo-webpack', function(done) {
   var server = new WebpackDevServer(compiler, {
     hot: true,
     historyApiFallback: false,
-    /*proxy: {
-     "*": "http://localhost:9090"
-     },*/
     filename: config.name+".js",
     publicPath: "/example/",
-    //headers: { "X-Custom-Header": "yes" },
     stats: { colors: true }
   });
   server.listen(8082, "localhost", function() {});
