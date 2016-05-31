@@ -1,5 +1,6 @@
 # ph-swipe
-> 基于react开发的移动端swipe模块
+> 基于react的滑动组件[a swipe module based on react]
+> 只需要一个配置文件就可以轻松完成照片浏览组件搭建[one prop object to solve everything]
 
 ## UI展示
 >![ph-swipe展示](/example/img/ph-swipe.gif)
@@ -7,7 +8,7 @@
 ## 命令
 ``` bash
 	git clone https://github.com/future-team/ph-swipe.git
-	# 或者
+	=== or ===
     npm install ph-swipe
 ```
 ## usage[使用方式]
@@ -27,7 +28,7 @@
                'http://img5.imgtn.bdimg.com/it/u=1432870041,1164599966&fm=21&gp=0.jpg'
            ];   
            /**
-            * 请手动左右滑动
+            * 请手动左右滑动[manual swipe]
             */
            var Node2Options={
                imgArr:imgArr,
@@ -35,7 +36,7 @@
                loop:false//是否滑动循环
            };
            /**
-            * 测试横向滑动模块
+            * 测试横向滑动模块[auto swipe]
             */
            var Node3Options={
                imgArr:imgArr,
@@ -46,7 +47,7 @@
                activeClass:'yellow',//自定义active的样式
            };
            /**
-            * 自动手动垂直滑动
+            * 自动手动垂直滑动[auto manual swipe]
             */
            let node4Options={
                imgArr:imgArr,
@@ -57,7 +58,7 @@
                activeClass:'green',//自定义active的样式
            };   
            /**
-            * 垂直自动播放方式
+            * 垂直自动播放方式[auto vertical swipe]
             */
            var node5Options={
                imgArr:imgArr,
@@ -81,8 +82,3 @@
    render(<PhSwipeDemo/>,document.getElementById('root'))
 ```
 
-## bugs
-``` bash
-    npm install ph-swipe    
-    cd example/index.html  #查看demo
-```
