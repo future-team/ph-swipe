@@ -1,5 +1,5 @@
 # ph-swipe
-> 基于react的滑动组件[a swipe module based on react]
+> 基于react的滑动组件[a swipe module based on react]   
 > 只需要一个配置文件就可以轻松完成照片浏览组件搭建[one prop object to solve everything]
 
 ## UI展示
@@ -47,14 +47,12 @@
                activeClass:'yellow',//自定义active的样式
            };
            /**
-            * 自动手动垂直滑动[auto manual swipe]
+            * 手动垂直滑动[manual vertical swipe]
             */
            let node4Options={
                imgArr:imgArr,
                direction:'vertical',
                autoPlay:false,//是否自动播放
-               duration:1500,//自动播放时间间隔
-               loop:true,
                activeClass:'green',//自定义active的样式
            };   
            /**

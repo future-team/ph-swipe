@@ -43,11 +43,8 @@ export default class PhSwipeDemo extends Component {
             imgArr:imgArr,
             direction:'vertical',
             autoPlay:false,//是否自动播放
-            duration:1500,//自动播放时间间隔
-            loop:true,
             activeClass:'green',//自定义active的样式
         };
-
         /**
          * 垂直自动播放方式
          */
