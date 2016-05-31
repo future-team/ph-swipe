@@ -1,5 +1,6 @@
 # ph-swipe
-> 基于react的滑动组件[a swipe module based on react]   
+> 基于react的滑动组件[a swipe module based on react]
+   
 > 只需要一个配置文件就可以轻松完成照片浏览组件搭建[one prop object to solve everything]
 
 ## UI展示
