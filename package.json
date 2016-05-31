@@ -1,6 +1,6 @@
 {
   "name": "ph-swipe",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "基于react开发的移动端swipe浏览组件",
   "main": "lib/index.js",
   "repository": "git@github.com:future-team/ph-swipe.git",
@@ -17,8 +17,8 @@
   },
   "license": "MIT",
   "author": {
-    "name": "xiaogang.huang@dianping.com",
-    "email": "xiaogang.huang@dianping.com"
+    "name": "slashhuang",
+    "email": "627284482@qq.com"
   },
   "dependencies": {
     "classnames": "^2.1.3",

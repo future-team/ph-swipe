@@ -4,6 +4,7 @@
  */
 
 import PhSwipe from './PhSwipe.js';
+require("../css/index.less");
 if(window['phoenix-ui']){
     window['phoenix-ui']['PhSwipe']
 }else{

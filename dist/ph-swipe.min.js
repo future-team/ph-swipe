@@ -74,6 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _PhSwipeJs2 = _interopRequireDefault(_PhSwipeJs);
 
+	__webpack_require__(11);
 	if (window['phoenix-ui']) {
 	    window['phoenix-ui']['PhSwipe'];
 	} else {
@@ -92,6 +93,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -119,24 +122,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(PhSwipe, null, [{
 	        key: 'PropTypes',
 	        value: {
+	            imgArr: _react.PropTypes.Array, //图片数组
 	            direction: _react.PropTypes.string, //默认横向滚动
 	            autoPlay: _react.PropTypes.boolean, //默认不自滚动
 	            loop: _react.PropTypes.boolean, //默认不循环
-	            containerClassName: _react.PropTypes.string, //滑动容器的className值
-	            /**
-	             * 以下为可选值
-	             */
-	            indicatorClassName: _react.PropTypes.string, //滑动容器下方小圆点容器className值
-	            activeClass: _react.PropTypes.string //滑动容器下方小圆点激活的className值
+	            indicator: _react.PropTypes.boolean, //显示小圆
+	            activeClass: _react.PropTypes.string //小圆active的样式
+	        },
+	        enumerable: true
+	    }, {
+	        key: 'styleClsName',
+	        value: {
+	            vertical: ['img-vertical-indicator'],
+	            horizontal: ['img-indicator']
 	        },
 	        enumerable: true
 	    }, {
 	        key: 'defaultProps',
 	        value: {
+	            imgArr: [], //图片数组
 	            direction: 'horizontal', //默认横向滚动
 	            autoPlay: false, //默认不自滚动
 	            loop: false, //默认不循环
-	            containerClassName: 'img-list' //滑动容器的className值
+	            containerClassName: 'img-list', //滑动容器的className值
+	            indicator: true, //显示小圆
+	            activeClass: 'indicator-active'
 	        },
 	        enumerable: true
 	    }]);
@@ -149,19 +159,59 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    PhSwipe.prototype.componentDidMount = function componentDidMount() {
 	        var _props = this.props;
-	        var children = _props.children;
+	        var imgArr = _props.imgArr;
 
-	        var other = _objectWithoutProperties(_props, ['children']);
+	        var other = _objectWithoutProperties(_props, ['imgArr']);
 
 	        this.node = _reactDom.findDOMNode(this.refs['ph-swipe']);
 	        new _GestureInstanceJs2['default'](this.node, other);
 	    };
 
-	    PhSwipe.prototype.render = function render() {
+	    PhSwipe.prototype.renderImg = function renderImg(direction) {
+	        var imgArr = this.props.imgArr;
+	        if (imgArr) return _react2['default'].createElement(
+	            'div',
+	            { className: 'img-list  ' + direction },
+	            imgArr.map(function (ele) {
+	                return _react2['default'].createElement('img', { src: ele, key: ele });
+	            })
+	        );
+	    };
+
+	    PhSwipe.prototype.renderIndicator = function renderIndicator() {
+	        var indicatorStyle = this.getIndicator();
+	        var activeClass = this.props.activeClass;
+
 	        return _react2['default'].createElement(
 	            'div',
-	            { ref: 'ph-swipe' },
-	            this.props.children
+	            { className: '' + indicatorStyle[0] },
+	            _react2['default'].createElement('i', { className: activeClass }),
+	            _react2['default'].createElement('i', null),
+	            _react2['default'].createElement('i', null),
+	            _react2['default'].createElement('i', null)
+	        );
+	    };
+
+	    PhSwipe.prototype.getIndicator = function getIndicator() {
+	        var direction = this.props.direction;
+
+	        if (direction == 'horizontal') {
+	            return PhSwipe.styleClsName['horizontal'];
+	        } else {
+	            return PhSwipe.styleClsName['vertical'];
+	        }
+	    };
+
+	    PhSwipe.prototype.render = function render() {
+	        var _props2 = this.props;
+	        var direction = _props2.direction;
+	        var indicator = _props2.indicator;
+
+	        return _react2['default'].createElement(
+	            'div',
+	            _extends({ className: 'ph-container ' + this.props.className }, this.props, { ref: 'ph-swipe' }),
+	            this.renderImg(direction),
+	            indicator ? this.renderIndicator() : null
 	        );
 	    };
 
@@ -231,9 +281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Slider(ele, option) {
 	        _classCallCheck(this, Slider);
 
-	        var containerClassName = option.containerClassName;
-	        //滑动容器的className值
-	        var targetNode = ele.getElementsByClassName(containerClassName)[0];
+	        var targetNode = ele.getElementsByClassName('img-list')[0];
 	        if (!(targetNode && targetNode.children && targetNode.children.length)) {
 	            _utilsWarningJs2['default']("please pass containerClassName as a prop to `PhSwipe`");
 	            return;
@@ -291,21 +339,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    Slider.prototype.renderIndicator = function renderIndicator(currentIndex) {
-	        //如果用户定义了indicator,则执行indicator的逻辑
-	        var _options = this.options;
-	        var indicatorClassName = _options.indicatorClassName;
-	        var activeClass = _options.activeClass;
+	        var indicatorNode = this.parentNode.children[1];
+	        var activeClass = this.options.activeClass;
 
-	        if (!(indicatorClassName && activeClass)) {
-	            _utilsWarningJs2['default']('if you want to render indicator, you must assign value to "containerClassName"' + 'and "activeClass" ');
-	        } else {
-	            var indicatorNode = this.parentNode.getElementsByClassName(indicatorClassName)[0];
-	            var children = indicatorNode.children;
-	            for (var i = 0; i < children.length; i++) {
-	                children[i]['classList'].remove(activeClass);
-	            }
-	            children[currentIndex]['classList'].add(activeClass);
+	        var children = indicatorNode.children;
+	        for (var i = 0; i < children.length; i++) {
+	            children[i]['classList'].remove(activeClass);
 	        }
+	        children[currentIndex]['classList'].add(activeClass);
 	    };
 
 	    Slider.prototype.renderStyle = function renderStyle(info) {
@@ -313,12 +354,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var replaceString = this.options.direction == 'horizontal' ? 'x' : 'y';
 	        var currentIndex = info.currentIndex;
 	        var swipeGap = info.swipeGap;
-	        var _options2 = this.options;
-	        var indicatorClassName = _options2.indicatorClassName;
-	        var activeClass = _options2.activeClass;
+	        var indicator = this.options.indicator;
 
 	        //在渲染样式的时机，渲染下面的小圆
-	        if (indicatorClassName && activeClass) {
+	        if (indicator) {
 	            this.renderIndicator(currentIndex);
 	        }
 	        return translateFormat.replace(replaceString, "-" + currentIndex * swipeGap + 'px');
@@ -788,6 +827,327 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	exports["default"] = utils;
 	module.exports = exports["default"];
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(12);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(14)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/less-loader/index.js!./index.less", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/less-loader/index.js!./index.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(13)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ph-container {\n  position: relative;\n  width: 100%;\n  height: 100px;\n  font-size: 0;\n  overflow: hidden;\n  /*横向滚动、自动播放、没有indicator的横向滚动*/\n}\n.ph-container .horizontal {\n  width: 400%;\n  height: inherit;\n  transition: all ease .4s;\n}\n.ph-container .horizontal img {\n  width: 25%;\n  height: inherit;\n  display: inline-block;\n}\n.ph-container .vertical {\n  width: 100%;\n  height: 400%;\n  transition: all ease .4s;\n}\n.ph-container .vertical img {\n  width: 100%;\n  height: 25%;\n  display: inline-block;\n}\n.ph-container .img-indicator {\n  position: absolute;\n  width: 200px;\n  bottom: 15px;\n  left: 50%;\n  margin-left: -100px;\n  text-align: center;\n}\n.ph-container .img-indicator i {\n  display: inline-block;\n  margin: 0 5px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-indicator i.indicator-active {\n  background-color: #009998;\n}\n.ph-container .img-vertical-indicator {\n  position: absolute;\n  height: 100px;\n  width: 10px;\n  right: 20px;\n  top: 50%;\n  margin-top: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n.ph-container .img-vertical-indicator i {\n  display: block;\n  margin: 3px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-vertical-indicator i.indicator-active {\n  background-color: #009998;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0;
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function createStyleElement() {
+		var styleElement = document.createElement("style");
+		var head = getHeadElement();
+		styleElement.type = "text/css";
+		head.appendChild(styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement() {
+		var linkElement = document.createElement("link");
+		var head = getHeadElement();
+		linkElement.rel = "stylesheet";
+		head.appendChild(linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement());
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement();
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement();
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
 
 /***/ }
 /******/ ])

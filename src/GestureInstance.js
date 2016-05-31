@@ -12,8 +12,7 @@ export default class Slider extends GestureEvent{
      * @param option 组件参数
      */
     constructor(ele,option){
-        let {containerClassName}=option;//滑动容器的className值
-        let targetNode = ele.getElementsByClassName(containerClassName)[0];
+        let targetNode = ele.getElementsByClassName('img-list')[0];
         if(!(targetNode && targetNode.children && targetNode.children.length)){
             warning("please pass containerClassName as a prop to `PhSwipe`");
             return;
@@ -71,27 +70,21 @@ export default class Slider extends GestureEvent{
         );
     }
     renderIndicator(currentIndex){
-        //如果用户定义了indicator,则执行indicator的逻辑
-        let {indicatorClassName,activeClass}=this.options;
-        if(!(indicatorClassName&&activeClass)){
-            warning('if you want to render indicator, you must assign value to "containerClassName"' +
-                'and "activeClass" ');
-        }else{
-            let indicatorNode = this.parentNode.getElementsByClassName(indicatorClassName)[0];
-            let children = indicatorNode.children;
-            for(let i=0;i<children.length;i++){
-                children[i]['classList'].remove(activeClass);
-            }
-            children[currentIndex]['classList'].add(activeClass);
+        let indicatorNode = this.parentNode.children[1];
+        let {activeClass}=this.options;
+        let children = indicatorNode.children;
+        for(let i=0;i<children.length;i++){
+            children[i]['classList'].remove(activeClass);
         }
+        children[currentIndex]['classList'].add(activeClass);
     }
     renderStyle(info){
         let translateFormat =this.options.direction=='horizontal'? 'translate3d(x,0,0)':'translate3d(0,y,0)';
         let replaceString=this.options.direction=='horizontal'?'x':'y';
         let {currentIndex,swipeGap}=info;
-        let {indicatorClassName,activeClass}=this.options;
+        let {indicator}=this.options;
         //在渲染样式的时机，渲染下面的小圆
-        if(indicatorClassName&&activeClass){
+        if(indicator){
             this.renderIndicator(currentIndex);
         }
         return translateFormat.replace(replaceString,"-"+currentIndex*swipeGap+'px');
