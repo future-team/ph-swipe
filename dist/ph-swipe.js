@@ -168,27 +168,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    PhSwipe.prototype.renderImg = function renderImg(direction) {
+	        var styles = this.calculatePercent();
 	        var imgArr = this.props.imgArr;
 	        if (imgArr) return _react2['default'].createElement(
 	            'div',
-	            { className: 'img-list  ' + direction },
+	            { className: 'img-list  ' + direction, style: styles.container },
 	            imgArr.map(function (ele) {
-	                return _react2['default'].createElement('img', { src: ele, key: ele });
+	                return _react2['default'].createElement('img', { src: ele, key: ele, style: styles.child });
 	            })
 	        );
 	    };
 
 	    PhSwipe.prototype.renderIndicator = function renderIndicator() {
 	        var indicatorStyle = this.getIndicator();
-	        var activeClass = this.props.activeClass;
+	        var _props2 = this.props;
+	        var activeClass = _props2.activeClass;
+	        var imgArr = _props2.imgArr;
 
 	        return _react2['default'].createElement(
 	            'div',
 	            { className: '' + indicatorStyle[0] },
 	            _react2['default'].createElement('i', { className: activeClass }),
-	            _react2['default'].createElement('i', null),
-	            _react2['default'].createElement('i', null),
-	            _react2['default'].createElement('i', null)
+	            imgArr.slice(1).map(function (ele, index) {
+	                return _react2['default'].createElement('i', { key: index });
+	            })
 	        );
 	    };
 
@@ -202,14 +205,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 
+	    PhSwipe.prototype.calculatePercent = function calculatePercent() {
+	        var _props3 = this.props;
+	        var imgArr = _props3.imgArr;
+	        var direction = _props3.direction;
+
+	        var length = imgArr.length;
+	        switch (direction) {
+	            case 'vertical':
+	                return {
+	                    container: { height: 100 * length + '%' },
+	                    child: { height: 100 / length + '%' }
+	                };
+	            default:
+	                return {
+	                    container: { width: 100 * length + '%' },
+	                    child: { width: 100 / length + '%' }
+	                };
+	        }
+	    };
+
 	    PhSwipe.prototype.render = function render() {
-	        var _props2 = this.props;
-	        var direction = _props2.direction;
-	        var indicator = _props2.indicator;
+	        var _props4 = this.props;
+	        var direction = _props4.direction;
+	        var indicator = _props4.indicator;
 
 	        return _react2['default'].createElement(
 	            'div',
-	            _extends({ className: 'ph-container ' + this.props.className }, this.props, { ref: 'ph-swipe' }),
+	            _extends({ className: 'ph-container ' + this.props.className
+	            }, this.props, {
+	                ref: 'ph-swipe' }),
 	            this.renderImg(direction),
 	            indicator ? this.renderIndicator() : null
 	        );
@@ -863,7 +888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".ph-container {\n  position: relative;\n  width: 100%;\n  height: 100px;\n  font-size: 0;\n  overflow: hidden;\n  /*横向滚动、自动播放、没有indicator的横向滚动*/\n}\n.ph-container .horizontal {\n  width: 400%;\n  height: inherit;\n  transition: all ease .4s;\n}\n.ph-container .horizontal img {\n  width: 25%;\n  height: inherit;\n  display: inline-block;\n}\n.ph-container .vertical {\n  width: 100%;\n  height: 400%;\n  transition: all ease .4s;\n}\n.ph-container .vertical img {\n  width: 100%;\n  height: 25%;\n  display: inline-block;\n}\n.ph-container .img-indicator {\n  position: absolute;\n  width: 200px;\n  bottom: 15px;\n  left: 50%;\n  margin-left: -100px;\n  text-align: center;\n}\n.ph-container .img-indicator i {\n  display: inline-block;\n  margin: 0 5px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-indicator i.indicator-active {\n  background-color: #009998;\n}\n.ph-container .img-vertical-indicator {\n  position: absolute;\n  height: 100px;\n  width: 10px;\n  right: 20px;\n  top: 50%;\n  margin-top: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n.ph-container .img-vertical-indicator i {\n  display: block;\n  margin: 3px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-vertical-indicator i.indicator-active {\n  background-color: #009998;\n}\n", ""]);
+	exports.push([module.id, ".ph-container {\n  position: relative;\n  width: 100%;\n  height: 100px;\n  font-size: 0;\n  overflow: hidden;\n  /*横向滚动、自动播放、没有indicator的横向滚动*/\n}\n.ph-container .horizontal {\n  height: inherit;\n  transition: all ease .4s;\n}\n.ph-container .horizontal img {\n  height: inherit;\n  display: inline-block;\n}\n.ph-container .vertical {\n  width: 100%;\n  transition: all ease .4s;\n}\n.ph-container .vertical img {\n  width: 100%;\n  display: inline-block;\n}\n.ph-container .img-indicator {\n  position: absolute;\n  width: 200px;\n  bottom: 15px;\n  left: 50%;\n  margin-left: -100px;\n  text-align: center;\n}\n.ph-container .img-indicator i {\n  display: inline-block;\n  margin: 0 5px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-indicator i.indicator-active {\n  background-color: #009998;\n}\n.ph-container .img-vertical-indicator {\n  position: absolute;\n  height: 100px;\n  width: 10px;\n  right: 20px;\n  top: 50%;\n  margin-top: -50px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n.ph-container .img-vertical-indicator i {\n  display: block;\n  margin: 3px;\n  border-radius: 20px;\n  width: 10px;\n  height: 10px;\n  background-color: white;\n}\n.ph-container .img-vertical-indicator i.indicator-active {\n  background-color: #009998;\n}\n", ""]);
 
 	// exports
 

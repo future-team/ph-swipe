@@ -23,11 +23,11 @@ var getEntry =function() {
 
 module.exports =extend({}, {
     //entry:baseFileDir+'src/index.js',
-    devtool:'eval',
     entry:[
         './example/src/index.js'
     ],
     output:{
+        libraryTarget:'umd',
         path:path.join(process.cwd(),'example'),
         filename:config.name+'.js'
     },

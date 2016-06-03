@@ -14,7 +14,8 @@ export default class PhSwipeDemo extends Component {
             'http://img5.imgtn.bdimg.com/it/u=1478257864,2882073929&fm=21&gp=0.jpg',
             'http://www.bz55.com/uploads/allimg/150309/139-150309101F7.jpg',
             'http://img2.zol.com.cn/product/95/20/ceSFw3e3TqLNM.jpg',
-            'http://img5.imgtn.bdimg.com/it/u=1432870041,1164599966&fm=21&gp=0.jpg'
+            'http://img5.imgtn.bdimg.com/it/u=1432870041,1164599966&fm=21&gp=0.jpg',
+            'http://img1.imgtn.bdimg.com/it/u=870912629,956006474&fm=21&gp=0.jpg'
         ];
 
         /**

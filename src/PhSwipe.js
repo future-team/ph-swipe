@@ -40,13 +40,14 @@ export default class PhSwipe extends Component{
         new Swipe(this.node,other);
     }
     renderImg(direction){
+        let styles=this.calculatePercent();
         let imgArr = this.props.imgArr;
         if(imgArr)
         return (
-            <div className={`img-list  ${direction}`}>
+            <div className={`img-list  ${direction}`}  style={styles.container}>
                 {
                     imgArr.map((ele)=>{
-                        return <img src={ele} key={ele}/>
+                        return <img src={ele} key={ele} style={styles.child}/>
                     })
                 }
             </div>
@@ -54,13 +55,16 @@ export default class PhSwipe extends Component{
     }
     renderIndicator(){
         let indicatorStyle=this.getIndicator();
-        let {activeClass}=this.props;
+        let {activeClass,imgArr}=this.props;
        return (
            <div className={`${indicatorStyle[0]}`} >
                <i className={activeClass}></i>
-               <i></i>
-               <i></i>
-               <i></i>
+               {
+                   imgArr.slice(1).map((ele,index)=>{
+                       return <i key={index}></i>
+                   })
+
+               }
            </div>
        )
     }
@@ -72,10 +76,28 @@ export default class PhSwipe extends Component{
             return PhSwipe.styleClsName['vertical']
         }
     }
+    calculatePercent(){
+        let { imgArr,direction} = this.props;
+        let length = imgArr.length;
+        switch(direction){
+            case 'vertical':
+                return {
+                    container:{height:100*length+'%'},
+                    child:{height:100/length+'%'}
+                }
+            default :
+                return {
+                    container:{width: 100*length+'%'},
+                    child:{width:100/length+'%'}
+                }
+        }
+    }
     render(){
         let {direction,indicator}=this.props;
         return (
-            <div className={`ph-container ${this.props.className}`} {...this.props} ref='ph-swipe'>
+            <div className={`ph-container ${this.props.className}`}
+                {...this.props}
+                 ref='ph-swipe'>
                 {this.renderImg(direction)}
                 {indicator?this.renderIndicator():null}
             </div>

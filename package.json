@@ -1,6 +1,6 @@
 {
   "name": "ph-swipe",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "基于react开发的移动端swipe浏览组件",
   "main": "lib/index.js",
   "repository": "git@github.com:future-team/ph-swipe.git",
